@@ -65,10 +65,10 @@ print ('Вы успешно авторизовались и видите защ�
 
         <div class="wrap1 lh-lg font-monospace">
             <?php
-            $user = 'u67323';
-            $pass = '3649631';
+            $user = 'u67302';
+            $pass = '3630030';
             $conn = new PDO(
-                'mysql:host=localhost;dbname=u67323',
+                'mysql:host=localhost;dbname=u67302',
                 $user,
                 $pass,
                 [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
