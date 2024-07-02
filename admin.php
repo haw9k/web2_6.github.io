@@ -76,8 +76,8 @@ print ('Вы успешно авторизовались и видите защ�
 
             $query = "SELECT u.user_id, u.Name, u.phone, u.email, u.birth_date, u.gender, u.Biographi, u.contract_agreed, 
             GROUP_CONCAT(l.language_name) AS languages
-     FROM main u
-     LEFT JOIN user_languages l ON u.user_id = l.user_id
+     FROM osnova u
+     LEFT JOIN osnova_languages l ON u.user_id = l.user_id
      GROUP BY u.user_id";
             $statement = $conn->query($query);
             $users = $statement->fetchAll(PDO::FETCH_ASSOC);
