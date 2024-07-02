@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bio = $_POST['bio'];
 
     // Запрос на обновление данных пользователя
-    $query = "UPDATE main SET Name = :Name, phone = :phone, email = :email, birth_date = :birth_date, gender = :gender, Biographi = :Biographi WHERE user_id = :user_id";
+    $query = "UPDATE osnova SET Name = :Name, phone = :phone, email = :email, birth_date = :birth_date, gender = :gender, Biographi = :Biographi WHERE user_id = :user_id";
     $statement = $db->prepare($query);
     $statement->execute([
         'Name' => $fullName,
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Получение информации о пользователе для редактирования
 $userId = $_GET['id'];
-$query = "SELECT * FROM main WHERE user_id = :user_id";
+$query = "SELECT * FROM osnova WHERE user_id = :user_id";
 $statement = $db->prepare($query);
 $statement->execute(['user_id' => $userId]);
 $user = $statement->fetch(PDO::FETCH_ASSOC);

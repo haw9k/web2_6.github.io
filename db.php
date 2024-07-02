@@ -84,7 +84,7 @@ try {
         $errors['date'] = !empty($_COOKIE['date_error']);
         $errors['someGroupName'] = !empty($_COOKIE['someGroupName_error']);
         $errors['language'] = !empty($_COOKIE['language_error']);
-        $errors['bio'] = !empty($_COOKIE['bio_error']);
+        $errors['Biographi'] = !empty($_COOKIE['Biographi_error']);
         $errors['checkt'] = !empty($_COOKIE['checkt_error']);
         if ($errors['fio']) {
             setcookie('fio_error', '', 100000);
@@ -116,9 +116,9 @@ try {
             setcookie('language_value', '', 100000);
             $messages[] = '<div class="error">Вы не выбрали языки программирования.</div>';
         }
-        if ($errors['bio']) {
-            setcookie('bio_error', '', 100000);
-            setcookie('bio_value', '', 100000);
+        if ($errors['Biographi']) {
+            setcookie('Biographi_error', '', 100000);
+            setcookie('Biographi_value', '', 100000);
             $messages[] = '<div class="error">Напишите о себе.</div>';
         }
         if ($errors['checkt']) {
@@ -138,7 +138,7 @@ try {
         $values['email'] = empty($_COOKIE['email_value']) ? '' : strip_tags($_COOKIE['email_value']);
         $values['date'] = empty($_COOKIE['date_value']) ? '' : strip_tags($_COOKIE['date_value']);
         $values['someGroupName'] = empty($_COOKIE['someGroupName_value']) ? '' : strip_tags($_COOKIE['someGroupName_value']);
-        $values['bio'] = empty($_COOKIE['bio_value']) ? '' : strip_tags($_COOKIE['bio_value']);
+        $values['Biographi'] = empty($_COOKIE['Biographi_value']) ? '' : strip_tags($_COOKIE['Biographi_value']);
         $values['checkt'] = empty($_COOKIE['checkt_value']) ? '' : strip_tags($_COOKIE['checkt_value']);
         $values['language'] = empty($_COOKIE['language_value']) ? '' : strip_tags($_COOKIE['language_value']);
 
@@ -146,17 +146,17 @@ try {
             empty($errors) && !empty($_COOKIE[session_name()]) &&
             session_start() && !empty($_SESSION['login'])
         ) {
-            $stmt = $db->prepare("SELECT full_name, phone, email, birth_date, gender, bio, contract_agreed FROM users WHERE login = :login");
+            $stmt = $db->prepare("SELECT Name, phone, email, birth_date, gender, Biographi, contract_agreed FROM osnova WHERE login = :login");
             $stmt->bindParam(':login', $_SESSION['login']);
             $stmt->execute();
             $values = $stmt->fetch(PDO::FETCH_ASSOC);
-            printf('Имя пользователя: %s<br>', $values['full_name']);
+            printf('Имя пользователя: %s<br>', $values['Name']);
             printf('Телефон: %s<br>', $values['phone']);
             printf('Email: %s<br>', $values['email']);
             printf('Дата рождения: %s<br>', $values['birth_date']);
             printf('Пол: %s<br>', $values['gender']);
             printf('Выберите языки программирования: %s<br>', $values['language']);
-            printf('О себе: %s<br>', $values['bio']);
+            printf('О себе: %s<br>', $values['Biographi']);
             printf('Согласие на условия: %s<br>', $values['contract_agreed']);
             printf('Вход с логином %s, uid %d', $_SESSION['login'], $_SESSION['uid']);
         }
@@ -195,11 +195,11 @@ try {
         setcookie('someGroupName_value', $_POST['someGroupName'], time() + 12 * 30 * 24 * 60 * 60);
 
 
-        if (empty($_POST['bio'])) {
-            setcookie('bio_error', '1', time() + 24 * 60 * 60);
+        if (empty($_POST['Biographi'])) {
+            setcookie('Biographi_error', '1', time() + 24 * 60 * 60);
             $errors = TRUE;
         }
-        setcookie('bio_value', $_POST['bio'], time() + 12 * 30 * 24 * 60 * 60);
+        setcookie('Biographi_value', $_POST['Biographi'], time() + 12 * 30 * 24 * 60 * 60);
 
         if (empty($_POST['checkt'])) {
             setcookie('checkt_error', '1', time() + 24 * 60 * 60);
@@ -225,7 +225,7 @@ try {
             setcookie('email_error', '', 100000);
             setcookie('date_error', '', 100000);
             setcookie('someGroupName_error', '', 100000);
-            setcookie('bio_error', '', 100000);
+            setcookie('Biographi_error', '', 100000);
             setcookie('checkt_error', '', 100000);
             setcookie('language_error', '', 100000);
         }
@@ -239,15 +239,15 @@ try {
             $email = $_POST['email'];
             $date = $_POST['date'];
             $someGroupName = $_POST['someGroupName'];
-            $bio = $_POST['bio'];
+            $Biographi = $_POST['Biographi'];
             $checkt = $_POST['checkt'];
-            $stmt = $db->prepare("UPDATE users SET full_name = :full_name, phone = :phone, email = :email, birth_date = :birth_date, gender = :gender, bio = :bio, contract_agreed = :contract_agreed WHERE login = :login");
-            $stmt->bindParam(':full_name', $fio);
+            $stmt = $db->prepare("UPDATE osnova SET Name = :Name, phone = :phone, email = :email, birth_date = :birth_date, gender = :gender, Biographi = :Biographi, contract_agreed = :contract_agreed WHERE login = :login");
+            $stmt->bindParam(':Name', $fio);
             $stmt->bindParam(':phone', $tel);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':birth_date', $date);
             $stmt->bindParam(':gender', $someGroupName);
-            $stmt->bindParam(':bio', $bio);
+            $stmt->bindParam(':Biographi', $Biographi);
             $stmt->bindParam(':contract_agreed', $checkt);
             $stmt->bindParam(':login', $_SESSION['login']);
             $stmt->execute();
@@ -258,20 +258,20 @@ try {
             setcookie('login', $login);
             setcookie('pass', $password, time() + 12 * 30 * 24 * 60 * 60);
             setcookie('save', '1');
-            $stmt = $db->prepare("INSERT INTO users (full_name, phone,email,birth_date,gender,bio,contract_agreed,login,password_hash) VALUES (:full_name, :phone,:email,:birth_date,:gender,:bio,:contract_agreed,:login,:password_hash)");
+            $stmt = $db->prepare("INSERT INTO osnova (Name, phone,email,birth_date,gender,Biographi,contract_agreed,login,password_hash) VALUES (:Name, :phone,:email,:birth_date,:gender,:Biographi,:contract_agreed,:login,:password_hash)");
             $fio = $_POST['fio'];
             $email = $_POST['email'];
             $tel = $_POST['tel'];
             $date = $_POST['date'];
             $someGroupName = $_POST['someGroupName'];
-            $bio = $_POST['bio'];
+            $Biographi = $_POST['Biographi'];
             $checkt = $_POST['checkt'];
-            $stmt->bindParam(':full_name', $fio);
+            $stmt->bindParam(':Name', $fio);
             $stmt->bindParam(':phone', $tel);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':birth_date', $date);
             $stmt->bindParam(':gender', $someGroupName);
-            $stmt->bindParam(':bio', $bio);
+            $stmt->bindParam(':Biographi', $Biographi);
             $stmt->bindParam(':contract_agreed', $checkt);
             $stmt->bindParam(':login', $login);
             $stmt->bindParam(':password_hash', $hashed_password);
