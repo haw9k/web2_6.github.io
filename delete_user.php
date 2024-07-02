@@ -15,12 +15,12 @@ try {
         $conn->beginTransaction();
 
         // Удаление связанных записей из других таблиц
-        $sql_delete_user_languages = "DELETE FROM user_languages WHERE user_id = :user_id";
+        $sql_delete_user_languages = "DELETE FROM osnova_languages WHERE user_id = :user_id";
         $stmt_delete_user_languages = $conn->prepare($sql_delete_user_languages);
         $stmt_delete_user_languages->execute(['user_id' => $user_id]);
 
         // SQL запрос для удаления пользователя
-        $sql_delete_user = "DELETE FROM main WHERE user_id = :user_id";
+        $sql_delete_user = "DELETE FROM osnova WHERE user_id = :user_id";
         $stmt_delete_user = $conn->prepare($sql_delete_user);
         $stmt_delete_user->execute(['user_id' => $user_id]);
 
