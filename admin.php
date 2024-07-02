@@ -49,7 +49,7 @@ print ('Вы успешно авторизовались и видите защ�
                 [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
             $languageStatsQuery = "SELECT language_name, COUNT(user_id) AS user_count
-                      FROM user_languages
+                      FROM osnova_languages
                       GROUP BY language_name";
 
             $languageStatsStatement = $conn->query($languageStatsQuery);
